@@ -5,16 +5,13 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 
-# Create your views here.
 
-# GET: List all transactions
 @api_view(['GET'])
 def get_transaction(request):
     queryset = Transactions.objects.all()
     serializer = TransactionSerializer(queryset, many=True)
     return Response({"data": serializer.data})
 
-# POST: Create a new transaction
 @api_view(['POST'])
 def create_transaction(request):
     serializer = TransactionSerializer(data=request.data)
@@ -23,7 +20,6 @@ def create_transaction(request):
         return Response({"data": serializer.data}, status=status.HTTP_201_CREATED)
     return Response({"errors": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
-# GET, PUT, DELETE: Single transaction operations
 @api_view(['GET', 'PUT', 'DELETE'])
 def transaction_detail(request, pk):
     transaction = get_object_or_404(Transactions, pk=pk)
